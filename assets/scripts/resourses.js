@@ -1,3 +1,14 @@
+const SUPABASE_URL = "https://fvvfmyizwilosmbhtlhh.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2dmZteWl6d2lsb3NtYmh0bGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEyMTg2MTAsImV4cCI6MjA3Njc5NDYxMH0._dPnV9wgBZZKvFR-zSZPp_FFQJ5Rf1akuMiS8maRhIs";
+
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const logoutBtn = document.getElementById("logout");
+logoutBtn.addEventListener("click", async () => {
+    await client.auth.signOut();
+    window.location.href = "auth.html";
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector(".search-input");
     const tagButtons = document.querySelectorAll(".tag-wrapper span");
@@ -6,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let activeTag = null;
     let searchTerm = "";
-    
+
     const allDocuments = Array.from(documentLinks).map(link => {
         const card = link.querySelector('.document-card');
         const titleElement = card.querySelector(".document-info .title");
