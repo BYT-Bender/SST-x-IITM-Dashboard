@@ -3,10 +3,10 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const logoutBtn = document.getElementById("logout");
 const coursesContainer = document.getElementById("course-card-wrapper");
 const deadlinesContainer = document.getElementById("deadline-wrapper");
 
+const logoutBtn = document.getElementById("logout");
 logoutBtn.addEventListener("click", async () => {
     await client.auth.signOut();
     window.location.href = "auth.html";
