@@ -3,6 +3,12 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const logoutBtn = document.getElementById("logout");
+logoutBtn.addEventListener("click", async () => {
+    await client.auth.signOut();
+    window.location.href = "auth.html";
+});
+
 const deadlinesContainer = document.getElementById("deadline-wrapper");
 
 async function loadDeadlines() {
