@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lectures</title>
+    <link rel="stylesheet" href="assets/stylesheets/style.css">
+    <link rel="stylesheet" href="assets/stylesheets/dropdown.css">
+    <script src="assets/scripts/dropdown.js" defer></script>
+    <script src="assets/scripts/svg-loader.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/scripts/lectures.js" defer></script>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <!-- <div class="navbar-inner-section">
+            <div class="time-wrapper">
+                <span>18 / 10 / 2025</span>
+            </div>
+        </div> -->
+        <div class="navbar-inner-section">
+            <!-- <div class="logo-wrapper">
+                 <span>SST x IITM</span>
+            </div> -->
+            <div class="nav-links">
+                <a class="item" href="index.html">
+                    <span>Home</span>
+                </a>
+                <a class="item" href="lectures.html">
+                    <span>Lectures</span>
+                </a>
+                <a class="item" href="attendance.html">
+                    <span>Attendance</span>
+                </a>
+                <a class="item" href="grades.html">
+                    <span>Grades</span>
+                </a>
+                <a class="item" href="deadlines.html">
+                    <span>Deadlines</span>
+                </a>
+                <a class="item" href="resources.html">
+                    <span>Resources</span>
+                </a>
+            </div>
+        </div>
+        <div class="navbar-inner-section">
+            <div class="profile-wrapper">
+                <div class="profile-image">
+                    <svg data-src="assets/icons/person-fill.svg"></svg>
+                </div>
+                <!-- <div class="profile-name">
+                    <span>Sourabh Srivastva</span>
+                </div> -->
+            </div>
+        </div>
+        <div class="navbar-inner-section" id="logout">
+            <div class="logout-btn">
+                <svg data-src="assets/icons/power.svg"></svg>
+            </div>
+        </div>
+    </div>
+    <div class="main-wrapper">
+        <header>
+            <span>Upcoming Lectures</span>
+            <div class="date-selector">
+                <!-- <div class="item">20 Oct</div>
+                <div class="item">21 Oct</div>
+                <div class="item">22 Oct</div> -->
+            </div>
+        </header>
+        <div class="upcoming-lectures-wrapper">
+            <!-- <div class="lecture-card">
+                <div class="thumbnail-wrapper">
+                    <img src="assets/images/course.png" alt="">
+                </div>
+                <div class="info-wrapper">
+                    <div class="lecture-title">Introduction to JavaScript</div>
+                    <div class="lecture-info">
+                        <div class="time">
+                            <div class="start-time">04:00 PM</div>
+                            <div class="separator">-</div>
+                            <div class="end-time">06:40 PM</div>
+                        </div>
+                        <div class="external-link">
+                            <a href="#">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lecture-card">
+                <div class="thumbnail-wrapper">
+                    <img src="assets/images/course.png" alt="">
+                </div>
+                <div class="info-wrapper">
+                    <div class="lecture-title">Introduction to JavaScript</div>
+                    <div class="lecture-info">
+                        <div class="time">
+                            <div class="start-time">04:00 PM</div>
+                            <div class="separator">-</div>
+                            <div class="end-time">06:40 PM</div>
+                        </div>
+                        <div class="external-link">
+                            <a href="#">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lecture-card">
+                <div class="thumbnail-wrapper">
+                    <img src="assets/images/course.png" alt="">
+                </div>
+                <div class="info-wrapper">
+                    <div class="lecture-title">Introduction to JavaScript</div>
+                    <div class="lecture-info">
+                        <div class="time">
+                            <div class="start-time">04:00 PM</div>
+                            <div class="separator">-</div>
+                            <div class="end-time">06:40 PM</div>
+                        </div>
+                        <div class="external-link">
+                            <a href="#">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <header>
+            <span>All Lectures</span>
+            <div class="filter-menu">
+                <div class="dropdown" data-placeholder="Status" style="width: 8rem;">
+                    <button class="dropdown-btn">
+                        <span class="dropdown-text">Status</span>
+                        <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
+                    </button>
+                    <ul class="dropdown-list">
+                        <li data-value="upcoming">Upcoming</li>
+                        <li data-value="past">Past</li>
+                    </ul>
+                </div>
+                <div class="dropdown" data-placeholder="Subject" style="width: 8rem;">
+                    <button class="dropdown-btn">
+                        <span class="dropdown-text">Subject</span>
+                        <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
+                    </button>
+                    <ul class="dropdown-list">
+                        <!-- <li data-value="english1">English I</li>
+                        <li data-value="maths1">Maths I</li>
+                        <li data-value="stats1">Stats I</li>
+                        <li data-value="ct">CT</li> -->
+                    </ul>
+                </div>
+                <div class="dropdown" data-placeholder="Date" style="width: 10rem;">
+                    <button class="dropdown-btn">
+                        <span class="dropdown-text">Date</span>
+                        <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
+                    </button>
+                    <ul class="dropdown-list">
+                        <!-- <li data-value="20-10-2025">20 Oct 2025</li>
+                        <li data-value="21-10-2025">21 Oct 2025</li>
+                        <li data-value="22-10-2025">22 Oct 2025</li> -->
+                    </ul>
+                </div>
+                <div class="dropdown" data-placeholder="Mode" style="width: 8rem;">
+                    <button class="dropdown-btn">
+                        <span class="dropdown-text">Mode</span>
+                        <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
+                    </button>
+                    <ul class="dropdown-list">
+                        <!-- <li data-value="online">Online</li>
+                        <li data-value="offline">Offline</li> -->
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="all-lectures-wrapper">
+            <!-- <div class="lecture-row">
+                <div class="title">Introduction to JavaScript</div>
+                <div class="subject">Maths I</div>
+                <div class="time">04:00 PM Tue, 24 Oct 2025</div>
+                <div class="duration">2 hr</div>
+                <div class="mode purple">Offline</div>
+            </div>
+            <div class="lecture-row">
+                <div class="title">Introduction to JavaScript</div>
+                <div class="subject">Maths I</div>
+                <div class="time">04:00 PM Tue, 24 Oct 2025</div>
+                <div class="duration">2 hr</div>
+                <div class="mode blue">Online</div>
+            </div>
+            <div class="lecture-row">
+                <div class="title">Introduction to JavaScript</div>
+                <div class="subject">Maths I</div>
+                <div class="time">04:00 PM Tue, 24 Oct 2025</div>
+                <div class="duration">2 hr</div>
+                <div class="mode blue">Online</div>
+            </div> -->
+        </div>
+    </div>
+</body>
+</html>

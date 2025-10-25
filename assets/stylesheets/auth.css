@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a:link,
+a:visited {
+    color: currentColor;
+    text-decoration: none;
+}
+
+html,
+body {
+    height: 100svh;
+    width: 100svw;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: #171717;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    color-scheme: dark;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+p {
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 30ch;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 3rem 4rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+button {
+    padding: 0.6rem 1.2rem;
+    margin-top: 2rem;
+    border: none;
+    background: rgba(255, 146, 30, 0.8);
+    color: #fff;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover {
+        background: rgba(255, 146, 30, 0.6);
+    }
+}

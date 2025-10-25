@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="assets/stylesheets/style.css">
+    <script src="assets/scripts/svg-loader.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/scripts/index.js" defer></script>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <!-- <div class="navbar-inner-section">
+            <div class="time-wrapper">
+                <span>18 / 10 / 2025</span>
+            </div>
+        </div> -->
+        <div class="navbar-inner-section">
+            <!-- <div class="logo-wrapper">
+                 <span>SST x IITM</span>
+            </div> -->
+            <div class="nav-links">
+                <a class="item" href="index.html">
+                    <span>Home</span>
+                </a>
+                <a class="item" href="lectures.html">
+                    <span>Lectures</span>
+                </a>
+                <a class="item" href="attendance.html">
+                    <span>Attendance</span>
+                </a>
+                <a class="item" href="grades.html">
+                    <span>Grades</span>
+                </a>
+                <a class="item" href="deadlines.html">
+                    <span>Deadlines</span>
+                </a>
+                <a class="item" href="resources.html">
+                    <span>Resources</span>
+                </a>
+            </div>
+            <!-- <button id="logout">Logout</button> -->
+        </div>
+        <div class="navbar-inner-section">
+            <div class="profile-wrapper">
+                <div class="profile-image">
+                    <svg data-src="assets/icons/person-fill.svg"></svg>
+                </div>
+                <!-- <div class="profile-name">
+                    <span>Sourabh Srivastva</span>
+                </div> -->
+            </div>
+        </div>
+        <div class="navbar-inner-section" id="logout">
+            <div class="logout-btn">
+                <svg data-src="assets/icons/power.svg"></svg>
+            </div>
+        </div>
+    </div>
+    <div class="main-wrapper">
+        <header>
+            <span>My Courses</span>
+        </header>
+        <div class="course-card-wrapper" id="course-card-wrapper">
+            <!-- <div class="course-card">
+                <div class="info">
+                    <div class="title">Mathematics for Data Science I</div>
+                    <div class="course-id">BSMA1001</div>
+                    <div class="row">
+                        <div class="type">FOUNDATIONAL</div>
+                        <div class="credits">4</div>
+                    </div>
+                </div>
+                <a class="footer" href="#">
+                    <span>View Course</span>
+                    <svg data-src="assets/icons/chevron-right.svg"></svg>
+                </a>
+            </div>
+            <div class="course-card">
+                <div class="info">
+                    <div class="title">Statistics for Data Science I</div>
+                    <div class="course-id">BSMA1002</div>
+                    <div class="row">
+                        <div class="type">FOUNDATIONAL</div>
+                        <div class="credits">4</div>
+                    </div>
+                </div>
+                <a class="footer" href="#">
+                    <span>View Course</span>
+                    <svg data-src="assets/icons/chevron-right.svg"></svg>
+                </a>
+            </div>
+            <div class="course-card">
+                <div class="info">
+                    <div class="title">Computational Thinking</div>
+                    <div class="course-id">BSCS1001</div>
+                    <div class="row">
+                        <div class="type">FOUNDATIONAL</div>
+                        <div class="credits">4</div>
+                    </div>
+                </div>
+                <a class="footer" href="#">
+                    <span>View Course</span>
+                    <svg data-src="assets/icons/chevron-right.svg"></svg>
+                </a>
+            </div>
+            <div class="course-card">
+                <div class="info">
+                    <div class="title">English I</div>
+                    <div class="course-id">BSHS1001</div>
+                    <div class="row">
+                        <div class="type">FOUNDATIONAL</div>
+                        <div class="credits">4</div>
+                    </div>
+                </div>
+                <a class="footer" href="#">
+                    <span>View Course</span>
+                    <svg data-src="assets/icons/chevron-right.svg"></svg>
+                </a>
+            </div> -->
+        </div>
+        <header>
+            <span>What's Next?</span>
+        </header>
+        <div class="deadline-wrapper" id="deadline-wrapper">
+            <!-- <div class="deadline-row">
+                <div class="completion">
+                    <input type="checkbox" name="" id="">
+                </div>
+                <div class="title">Quiz 1</div>
+                <div class="description">Worth 20% of your grade</div>
+                <div class="time">24th Oct, 2025 at 04:00 PM</div>
+                <div class="status yellow">Upcoming</div>
+                <div class="priority red">High</div>
+                <a class="link" href="#">
+                    <span>Open</span>
+                    <svg data-src="assets/icons/box-arrow-up-right.svg"></svg>
+                </a>
+            </div>
+            <div class="deadline-row">
+                <div class="completion">
+                    <input type="checkbox" name="" id="">
+                </div>
+                <div class="title">GA</div>
+                <div class="description">Maths 1 Graded Assignment</div>
+                <div class="time">24th Oct, 2025 at 04:00 PM</div>
+                <div class="status yellow">Upcoming</div>
+                <div class="priority green">Low</div>
+                <a class="link" href="#">
+                    <span>Open</span>
+                    <svg data-src="assets/icons/box-arrow-up-right.svg"></svg>
+                </a>
+            </div>
+            <div class="deadline-row">
+                <div class="completion">
+                    <input type="checkbox" name="" id="">
+                </div>
+                <div class="title">Quiz 2</div>
+                <div class="description">Worth 30% of your grade</div>
+                <div class="time">24th Oct, 2025 at 04:00 PM</div>
+                <div class="status yellow">Upcoming</div>
+                <div class="priority red">High</div>
+                <a class="link" href="#">
+                    <span>Open</span>
+                    <svg data-src="assets/icons/box-arrow-up-right.svg"></svg>
+                </a>
+            </div> -->
+        </div>
+    </div>
+</body>
+</html>
