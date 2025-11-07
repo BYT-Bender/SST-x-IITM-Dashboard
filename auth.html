@@ -5,14 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authentication</title>
     <link rel="stylesheet" href="assets/stylesheets/auth.css">
+    <script src="assets/scripts/svg-loader.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/scripts/auth.js" defer></script>
 </head>
 <body>
+    <div class="bg-effect">
+        <div class="bubble1"></div>
+        <div class="bubble2"></div>
+    </div>
   <div class="card">
-    <h2>Sign in</h2>
-    <p>Sign in with your scaler email to access the dashboard</p>
-    <button id="google-login">Sign in with Google</button>
+    <h2>SST x IITM Dashboard</h2>
+    <p>Please sign in using your official Scaler (Google) email account.</p>
+    <button id="google-login">
+        <svg class="google-icon" data-src="assets/icons/google-logo.svg"></svg>
+        <span>Sign in with Google</span>
+    </button>
+    <div class="help-text">
+        <p class="note">
+            Access is restricted. Your account must be added by an administrator.
+        </p>
+        <p class="need-access">
+            Need access? 
+            <a href="https://forms.gle/YMp9rVHXM8AmuUzf9" target="_blank" rel="noopener noreferrer">
+                Fill out the request form
+            </a>
+        </p>
+    </div>
   </div>
 </body>
 </html>
