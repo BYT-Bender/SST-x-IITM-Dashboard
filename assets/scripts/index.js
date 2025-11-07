@@ -20,16 +20,32 @@ async function loadDashboard() {
         return;
     }
 
-    const { data: userData, error: userError } = await client
-        .from("users")
-        .select("current_courses")
-        .eq("sst_email", user.email)
-        .single();
+    let userData;
+    try {
+        const { data, error } = await client
+            .from("users") // Your 'allowlist' table
+            .select("current_courses")
+            .eq("sst_email", user.email)
+            .maybeSingle(); // Returns null if not found
 
-    if (userError || !userData) {
-        console.error(userError);
+        if (error) {
+            throw new Error(`Allowlist check failed: ${error.message}`);
+        }
+
+        if (!data) {
+            // User is authenticated but NOT on the allowlist.
+            console.warn("Access Denied: User not in allowlist.", user.email);
+            await client.auth.signOut(); // Log them out
+            window.location.href = "access_denied.html"; // Redirect to denied page
+            return; // Stop executing
+        }
+        userData = data; // Store the approved user's data
+
+    } catch (error) {
+        console.error(error.message);
         coursesContainer.innerHTML = "<p>Failed to load courses.</p>";
         deadlinesContainer.innerHTML = "<p>Failed to load deadlines.</p>";
+        await client.auth.signOut();
         return;
     }
 
