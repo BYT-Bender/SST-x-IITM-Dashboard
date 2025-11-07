@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments</title>
+    <link rel="stylesheet" href="assets/stylesheets/style.css">
+    <link rel="stylesheet" href="assets/stylesheets/dropdown.css">
+    <script src="assets/scripts/dropdown.js" defer></script>
+    <script src="assets/scripts/svg-loader.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/scripts/assignments.js" defer></script>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <!-- <div class="navbar-inner-section">
+            <div class="time-wrapper">
+                <span>18 / 10 / 2025</span>
+            </div>
+        </div> -->
+        <div class="navbar-inner-section">
+            <!-- <div class="logo-wrapper">
+                 <span>SST x IITM</span>
+            </div> -->
+            <div class="nav-links">
+                <a class="item" href="index.html">
+                    <span>Home</span>
+                </a>
+                <a class="item" href="lectures.html">
+                    <span>Lectures</span>
+                </a>
+                <a class="item" href="attendance.html">
+                    <span>Attendance</span>
+                </a>
+                <a class="item" href="grades.html">
+                    <span>Grades</span>
+                </a>
+                <a class="item" href="deadlines.html">
+                    <span>Deadlines</span>
+                </a>
+                <a class="item active" href="assignments.html">
+                    <span>Assignments</span>
+                </a>
+                <a class="item" href="resources.html">
+                    <span>Resources</span>
+                </a>
+            </div>
+        </div>
+        <div class="navbar-inner-section">
+            <div class="profile-wrapper">
+                <div class="profile-image">
+                    <svg data-src="assets/icons/person-fill.svg"></svg>
+                </div>
+                <!-- <div class="profile-name">
+                    <span>Sourabh Srivastva</span>
+                </div> -->
+            </div>
+        </div>
+        <div class="navbar-inner-section" id="logout">
+            <div class="logout-btn">
+                <svg data-src="assets/icons/power.svg"></svg>
+            </div>
+        </div>
+    </div>
+    <div class="main-wrapper">
+        <header>
+            <span>Upcoming Assignments</span>
+        </header>
+        <div class="assignments-wrapper">
+            <!-- <div class="assignment-card">
+                <div class="info-wrapper">
+                    <div class="subject">Mathematics for Data Science I</div>
+                    <div class="tags">
+                        <div class="chip">Week 6</div>
+                        <div class="chip yellow">Graded Assignment</div>
+                    </div>
+                    <div class="description">
+                        <p>This is a graded assignment and will carry weightage towards your final score.</p>
+                    </div>
+                    <div class="deadline">
+                        <svg data-src="assets/icons/stopwatch.svg"></svg>
+                        <span>2025-11-05, 23:59 IST</span>
+                    </div>
+                </div>
+                <div class="view-btn-wrapper">
+                    <button>View Solution</button>
+                </div>
+                <div class="week-number">6</div>
+            </div> -->
+        </div>
+        <header>
+            <span>Previous Assignments</span>
+            <div class="filter-menu">
+                <div class="dropdown" data-placeholder="Subject" style="width: 8rem;">
+                    <button class="dropdown-btn">
+                        <span class="dropdown-text">Subject</span>
+                        <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
+                    </button>
+                    <ul class="dropdown-list">
+                        <!-- <li data-value="english1">English I</li>
+                        <li data-value="maths1">Maths I</li>
+                        <li data-value="stats1">Stats I</li>
+                        <li data-value="ct">CT</li> -->
+                    </ul>
+                </div>
+                <div class="dropdown" data-placeholder="Type" style="width: 8rem;">
+                    <button class="dropdown-btn">
+                        <span class="dropdown-text">Type</span>
+                        <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
+                    </button>
+                    <ul class="dropdown-list">
+                        <!-- <li data-value="online">Online</li>
+                        <li data-value="offline">Offline</li> -->
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="previous-assignments-wrapper">
+            <div class="WIP">
+                <span>Work In Progress</span>
+            </div>
+        </div>
+    </div>
+    <div class="overlay-wrapper">
+        <div class="bg-effect"></div>
+        <div id="confirm-view-solution-overlay">
+            <header>
+                <span>Declaration Statement</span>
+            </header>
+            <div class="main-content">
+                <p>I hereby declare that I have completed the current assignment (or quiz) to the best of my ability before viewing these solutions.</p>
+                <p>I understand that these answers are provided solely for the purpose of cross-checking my own work and identifying any errors in my submission before the final deadline.</p>
+                <p>I further affirm that I will not use these answers to complete the assignment initially or submit them as my own work.</p>
+            </div>
+            <div class="footer">
+                <button class="agree">
+                    <span>I Agree & View Answers</span>
+                </button>
+                <button class="disagree">
+                    <span>I Do Not Agree</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
