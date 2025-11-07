@@ -19,15 +19,30 @@ async function loadLectures() {
         return;
     }
 
-    const { data: userData, error: userError } = await client
-        .from("users")
-        .select("batch, group, current_courses")
-        .eq("sst_email", user.email)
-        .maybeSingle();
+    let userData;
+    try {
+        const { data, error } = await client
+            .from("users") // Your 'allowlist' table
+            .select("batch, group, current_courses")
+            .eq("sst_email", user.email)
+            .maybeSingle(); // Returns null if not found
 
-    if (userError || !userData) {
-        console.error(userError);
+        if (error) {
+            throw new Error(`Allowlist check failed: ${error.message}`);
+        }
+
+        if (!data) {
+            // User is authenticated but NOT on the allowlist.
+            console.warn("Access Denied: User not in allowlist.", user.email);
+            await client.auth.signOut(); // Log them out
+            window.location.href = "access_denied.html"; // Redirect to denied page
+            return; // Stop executing
+        }
+        userData = data; // Store the approved user's data
+    } catch (error) {
+        console.error(error.message);
         lecturesContainer.innerHTML = "<p>Failed to load lectures.</p>";
+        await client.auth.signOut();
         return;
     }
 
@@ -205,15 +220,30 @@ async function loadAllLectures() {
             return;
         }
 
-        const { data: userData, error: profileErr } = await client
-            .from("users")
-            .select("batch, group")
-            .eq("sst_email", user.email)
-            .maybeSingle();
+        let userData;
+        try {
+            const { data, error } = await client
+                .from("users") // Your 'allowlist' table
+                .select("batch, group")
+                .eq("sst_email", user.email)
+                .maybeSingle(); // Returns null if not found
 
-        if (profileErr || !userData) {
-            console.error("Error loading user data:", profileErr);
+            if (error) {
+                throw new Error(`Allowlist check failed: ${error.message}`);
+            }
+
+            if (!data) {
+                // User is authenticated but NOT on the allowlist.
+                console.warn("Access Denied: User not in allowlist.", user.email);
+                await client.auth.signOut(); // Log them out
+                window.location.href = "access_denied.html"; // Redirect to denied page
+                return; // Stop executing
+            }
+            userData = data; // Store the approved user's data
+        } catch (error) {
+            console.error(error.message);
             wrapper.innerHTML = `<div class="no-lectures">Failed to load user data.</div>`;
+            await client.auth.signOut();
             return;
         }
 
