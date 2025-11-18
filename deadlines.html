@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assets/stylesheets/style.css">
     <script src="assets/scripts/svg-loader.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/scripts/script.js" defer></script>
     <script src="assets/scripts/deadlines.js" defer></script>
 </head>
 <body>
@@ -61,9 +62,6 @@
         </div>
     </div>
     <div class="main-wrapper">
-        <!-- <div class="center-info">
-            <span>COMING SOON</span>
-        </div> -->
         <header>
             <span>Deadlines</span>
         </header>
@@ -81,35 +79,20 @@
                     <span>Open</span>
                     <svg data-src="assets/icons/box-arrow-up-right.svg"></svg>
                 </a>
-            </div>
-            <div class="deadline-row">
-                <div class="completion">
-                    <input type="checkbox" name="" id="">
-                </div>
-                <div class="title">GA</div>
-                <div class="description">Maths 1 Graded Assignment</div>
-                <div class="time">24th Oct, 2025 at 04:00 PM</div>
-                <div class="status yellow">Upcoming</div>
-                <div class="priority green">Low</div>
-                <a class="link" href="#">
-                    <span>Open</span>
-                    <svg data-src="assets/icons/box-arrow-up-right.svg"></svg>
-                </a>
-            </div>
-            <div class="deadline-row">
-                <div class="completion">
-                    <input type="checkbox" name="" id="">
-                </div>
-                <div class="title">Quiz 2</div>
-                <div class="description">Worth 30% of your grade</div>
-                <div class="time">24th Oct, 2025 at 04:00 PM</div>
-                <div class="status yellow">Upcoming</div>
-                <div class="priority red">High</div>
-                <a class="link" href="#">
-                    <span>Open</span>
-                    <svg data-src="assets/icons/box-arrow-up-right.svg"></svg>
-                </a>
             </div> -->
+        </div>
+    </div>
+    <div class="overlay-wrapper">
+        <div class="bg-effect"></div>
+        <div id="null-link">
+            <div class="main-content">
+                <p>Sorry, this link is not available right now.</p>
+            </div>
+            <div class="footer">
+                <button class="close">
+                    <span>Close</span>
+                </button>
+            </div>
         </div>
     </div>
 </body>
