@@ -1,14 +1,3 @@
-const SUPABASE_URL = "https://fvvfmyizwilosmbhtlhh.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2dmZteWl6d2lsb3NtYmh0bGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEyMTg2MTAsImV4cCI6MjA3Njc5NDYxMH0._dPnV9wgBZZKvFR-zSZPp_FFQJ5Rf1akuMiS8maRhIs";
-
-const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-const logoutBtn = document.getElementById("logout");
-logoutBtn.addEventListener("click", async () => {
-    await client.auth.signOut();
-    window.location.href = "auth.html";
-});
-
 const lecturesContainer = document.querySelector(".upcoming-lectures-wrapper");
 const dateSelector = document.querySelector(".date-selector");
 
@@ -22,23 +11,22 @@ async function loadLectures() {
     let userData;
     try {
         const { data, error } = await client
-            .from("users") // Your 'allowlist' table
+            .from("users")
             .select("batch, group, current_courses")
             .eq("sst_email", user.email)
-            .maybeSingle(); // Returns null if not found
+            .maybeSingle();
 
         if (error) {
             throw new Error(`Allowlist check failed: ${error.message}`);
         }
 
         if (!data) {
-            // User is authenticated but NOT on the allowlist.
             console.warn("Access Denied: User not in allowlist.", user.email);
-            await client.auth.signOut(); // Log them out
-            window.location.href = "access_denied.html"; // Redirect to denied page
-            return; // Stop executing
+            await client.auth.signOut();
+            window.location.href = "access_denied.html";
+            return;
         }
-        userData = data; // Store the approved user's data
+        userData = data;
     } catch (error) {
         console.error(error.message);
         lecturesContainer.innerHTML = "<p>Failed to load lectures.</p>";
@@ -223,23 +211,22 @@ async function loadAllLectures() {
         let userData;
         try {
             const { data, error } = await client
-                .from("users") // Your 'allowlist' table
+                .from("users")
                 .select("batch, group")
                 .eq("sst_email", user.email)
-                .maybeSingle(); // Returns null if not found
+                .maybeSingle();
 
             if (error) {
                 throw new Error(`Allowlist check failed: ${error.message}`);
             }
 
             if (!data) {
-                // User is authenticated but NOT on the allowlist.
                 console.warn("Access Denied: User not in allowlist.", user.email);
-                await client.auth.signOut(); // Log them out
-                window.location.href = "access_denied.html"; // Redirect to denied page
-                return; // Stop executing
+                await client.auth.signOut();
+                window.location.href = "access_denied.html";
+                return;
             }
-            userData = data; // Store the approved user's data
+            userData = data;
         } catch (error) {
             console.error(error.message);
             wrapper.innerHTML = `<div class="no-lectures">Failed to load user data.</div>`;
