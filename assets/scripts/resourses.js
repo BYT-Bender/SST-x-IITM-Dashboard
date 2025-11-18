@@ -1,65 +1,139 @@
-const SUPABASE_URL = "https://fvvfmyizwilosmbhtlhh.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2dmZteWl6d2lsb3NtYmh0bGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEyMTg2MTAsImV4cCI6MjA3Njc5NDYxMH0._dPnV9wgBZZKvFR-zSZPp_FFQJ5Rf1akuMiS8maRhIs";
-
-const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-const logoutBtn = document.getElementById("logout");
-logoutBtn.addEventListener("click", async () => {
-    await client.auth.signOut();
-    window.location.href = "auth.html";
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.querySelector(".search-input");
-    const tagButtons = document.querySelectorAll(".tag-wrapper span");
-    const documentLinks = document.querySelectorAll(".document-card-wrapper a");
-    const documentWrapper = document.querySelector(".document-card-wrapper");
     
+    const searchInput = document.querySelector(".search-input");
+    const tagWrapper = document.querySelector(".tag-wrapper");
+    const documentWrapper = document.querySelector(".document-card-wrapper");
+
     let activeTag = null;
     let searchTerm = "";
 
-    const allDocuments = Array.from(documentLinks).map(link => {
-        const card = link.querySelector('.document-card');
-        const titleElement = card.querySelector(".document-info .title");
-        const tagElements = card.querySelectorAll(".tags span");
-        
-        const title = titleElement ? titleElement.textContent.toLowerCase() : "";
-        const tags = tagElements ? Array.from(tagElements).map(tag => tag.textContent.toLowerCase()) : [];
-        
-        return {
-            element: link,
-            title: title,
-            tags: tags
-        };
-    });
+    async function loadResources() {
+        const { data: { user } } = await client.auth.getUser();
+        if (!user) {
+            window.location.href = "auth.html";
+            return;
+        }
 
-    const noResultsMessage = document.createElement("div");
-    noResultsMessage.className = "no-lectures";
-    noResultsMessage.textContent = "No resources found matching your criteria.";
-    noResultsMessage.style.display = "none";
-    noResultsMessage.style.width = "100%";
-    noResultsMessage.style.textAlign = "center";
-    documentWrapper.appendChild(noResultsMessage);
+        try {
+            const { data: userData, error: userError } = await client
+                .from("users")
+                .select("current_courses")
+                .eq("sst_email", user.email)
+                .maybeSingle();
+
+            if (userError) throw userError;
+            
+            if (!userData) {
+                console.warn("Access Denied", user.email);
+                await client.auth.signOut();
+                window.location.href = "access_denied.html";
+                return;
+            }
+            const userCourses = userData.current_courses || [];
+
+            const { data: resources, error: resourcesError } = await client
+                .from("resources")
+                .select("*")
+                .order("created_at", { ascending: false });
+            
+            if (resourcesError) throw resourcesError;
+
+            const validDocuments = resources.filter(res => {
+                const isPublic = !res.target_courses || res.target_courses.length === 0;
+                const isEnrolled = res.target_courses && res.target_courses.some(courseId => userCourses.includes(courseId));
+                return isPublic || isEnrolled;
+            });
+
+            renderDynamicTags(validDocuments);
+            renderAllDocuments(validDocuments);
+
+            if (window.SvgLoader) window.SvgLoader.load();
+
+        } catch (error) {
+            console.error("Error loading resources:", error.message);
+            documentWrapper.innerHTML = `<div class="no-data-found">Failed to load resources.</div>`;
+        }
+    }
+
+    function renderDynamicTags(documents) {
+        const allTags = new Set(documents.flatMap(doc => doc.tags || []));
+        tagWrapper.innerHTML = [...allTags]
+            .sort()
+            .map(tag => `<span>${tag}</span>`)
+            .join('');
+    }
+
+    function renderAllDocuments(documents) {
+        if (documents.length === 0) {
+            documentWrapper.innerHTML = `<div class="no-data-found">No resources available.</div>`;
+            return;
+        }
+
+        const cardsHtml = documents.map(doc => {
+            const displayDate = new Date(doc.created_at).toLocaleDateString('en-IN', {
+                day: 'numeric', month: 'short', year: 'numeric'
+            });
+            
+            const tagsHtml = (doc.tags || []).map(tag => `<span>${tag}</span>`).join('');
+            
+            const tagsString = (doc.tags || []).join(',').toLowerCase();
+            const titleString = doc.title.toLowerCase();
+
+            return `
+                <a href="${doc.redirect_link || '#'}" target="_blank" 
+                   class="document-card-link" 
+                   data-title="${titleString}" 
+                   data-tags="${tagsString}">
+                   
+                    <div class="document-card">
+                        <svg class="file-icon" data-src="assets/icons/${doc.file_icon || 'filetype-doc'}.svg"></svg>
+                        <div class="document-info">
+                            <div class="row">
+                                <div class="title">${doc.title}</div>
+                            </div>
+                            <div class="row">
+                                <div class="date-added">${displayDate}</div>
+                            </div>
+                        </div>
+                        <div class="tags">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                </a>
+            `;
+        }).join('');
+
+        const noResultsHtml = `<div id="no-results-msg" class="no-resources-found hide">No resources found matching your criteria.</div>`;
+        
+        documentWrapper.innerHTML = cardsHtml + noResultsHtml;
+    }
 
     function filterDocuments() {
-        let resultsFound = false;
+        const cards = documentWrapper.querySelectorAll('.document-card-link');
+        const noResultsMsg = document.getElementById('no-results-msg');
+        let visibleCount = 0;
 
-        allDocuments.forEach(doc => {
-            const titleMatch = doc.title.includes(searchTerm);
-            const tagMatch = !activeTag || doc.tags.includes(activeTag);
+        cards.forEach(card => {
+            // Retrieve data from DOM attributes
+            const cardTitle = card.getAttribute('data-title');
+            const cardTags = card.getAttribute('data-tags');
 
-            if (titleMatch && tagMatch) {
-                doc.element.style.display = "block";
-                resultsFound = true;
+            const matchesSearch = !searchTerm || cardTitle.includes(searchTerm);
+            
+            const matchesTag = !activeTag || (cardTags && cardTags.split(',').includes(activeTag));
+
+            if (matchesSearch && matchesTag) {
+                card.classList.remove('hide');
+                visibleCount++;
             } else {
-                doc.element.style.display = "none";
+                card.classList.add('hide');
             }
         });
 
-        if (resultsFound) {
-            noResultsMessage.style.display = "none";
+        if (visibleCount === 0) {
+            if(noResultsMsg) noResultsMsg.classList.remove('hide');
         } else {
-            noResultsMessage.style.display = "block";
+            if(noResultsMsg) noResultsMsg.classList.add('hide');
         }
     }
 
@@ -68,20 +142,23 @@ document.addEventListener("DOMContentLoaded", () => {
         filterDocuments();
     });
 
-    tagButtons.forEach(tagButton => {
-        tagButton.addEventListener("click", () => {
-            const tag = tagButton.textContent.toLowerCase();
+    tagWrapper.addEventListener("click", (e) => {
+        if (e.target.tagName === 'SPAN') {
+            const tagButton = e.target;
+            const tag = tagButton.textContent.toLowerCase(); 
 
             if (tagButton.classList.contains("active")) {
                 tagButton.classList.remove("active");
                 activeTag = null;
             } else {
-                tagButtons.forEach(btn => btn.classList.remove("active"));
+                tagWrapper.querySelectorAll('span').forEach(btn => btn.classList.remove("active"));
                 tagButton.classList.add("active");
                 activeTag = tag;
             }
             
             filterDocuments();
-        });
+        }
     });
+
+    loadResources();
 });
