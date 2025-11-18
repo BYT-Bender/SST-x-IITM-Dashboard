@@ -6,9 +6,9 @@
     <title>Lectures</title>
     <link rel="stylesheet" href="assets/stylesheets/style.css">
     <link rel="stylesheet" href="assets/stylesheets/dropdown.css">
-    <script src="assets/scripts/dropdown.js" defer></script>
     <script src="assets/scripts/svg-loader.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/scripts/script.js" defer></script>
     <script src="assets/scripts/lectures.js" defer></script>
 </head>
 <body>
@@ -65,11 +65,7 @@
     <div class="main-wrapper">
         <header>
             <span>Upcoming Lectures</span>
-            <div class="date-selector">
-                <!-- <div class="item">20 Oct</div>
-                <div class="item">21 Oct</div>
-                <div class="item">22 Oct</div> -->
-            </div>
+            <div class="date-selector"></div>
         </header>
         <div class="upcoming-lectures-wrapper">
             <!-- <div class="lecture-card">
@@ -89,43 +85,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="lecture-card">
-                <div class="thumbnail-wrapper">
-                    <img src="assets/images/course.png" alt="">
-                </div>
-                <div class="info-wrapper">
-                    <div class="lecture-title">Introduction to JavaScript</div>
-                    <div class="lecture-info">
-                        <div class="time">
-                            <div class="start-time">04:00 PM</div>
-                            <div class="separator">-</div>
-                            <div class="end-time">06:40 PM</div>
-                        </div>
-                        <div class="external-link">
-                            <a href="#">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="lecture-card">
-                <div class="thumbnail-wrapper">
-                    <img src="assets/images/course.png" alt="">
-                </div>
-                <div class="info-wrapper">
-                    <div class="lecture-title">Introduction to JavaScript</div>
-                    <div class="lecture-info">
-                        <div class="time">
-                            <div class="start-time">04:00 PM</div>
-                            <div class="separator">-</div>
-                            <div class="end-time">06:40 PM</div>
-                        </div>
-                        <div class="external-link">
-                            <a href="#">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+            </div>  -->
         </div>
         <header>
             <span>All Lectures</span>
@@ -145,33 +105,21 @@
                         <span class="dropdown-text">Subject</span>
                         <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
                     </button>
-                    <ul class="dropdown-list">
-                        <!-- <li data-value="english1">English I</li>
-                        <li data-value="maths1">Maths I</li>
-                        <li data-value="stats1">Stats I</li>
-                        <li data-value="ct">CT</li> -->
-                    </ul>
+                    <ul class="dropdown-list"></ul>
                 </div>
                 <div class="dropdown" data-placeholder="Date" style="width: 10rem;">
                     <button class="dropdown-btn">
                         <span class="dropdown-text">Date</span>
                         <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
                     </button>
-                    <ul class="dropdown-list">
-                        <!-- <li data-value="20-10-2025">20 Oct 2025</li>
-                        <li data-value="21-10-2025">21 Oct 2025</li>
-                        <li data-value="22-10-2025">22 Oct 2025</li> -->
-                    </ul>
+                    <ul class="dropdown-list"></ul>
                 </div>
                 <div class="dropdown" data-placeholder="Mode" style="width: 8rem;">
                     <button class="dropdown-btn">
                         <span class="dropdown-text">Mode</span>
                         <svg class="dropdown-arrow" data-src="assets/icons/chevron-down.svg"></svg>
                     </button>
-                    <ul class="dropdown-list">
-                        <!-- <li data-value="online">Online</li>
-                        <li data-value="offline">Offline</li> -->
-                    </ul>
+                    <ul class="dropdown-list"></ul>
                 </div>
             </div>
         </header>
@@ -182,20 +130,6 @@
                 <div class="time">04:00 PM Tue, 24 Oct 2025</div>
                 <div class="duration">2 hr</div>
                 <div class="mode purple">Offline</div>
-            </div>
-            <div class="lecture-row">
-                <div class="title">Introduction to JavaScript</div>
-                <div class="subject">Maths I</div>
-                <div class="time">04:00 PM Tue, 24 Oct 2025</div>
-                <div class="duration">2 hr</div>
-                <div class="mode blue">Online</div>
-            </div>
-            <div class="lecture-row">
-                <div class="title">Introduction to JavaScript</div>
-                <div class="subject">Maths I</div>
-                <div class="time">04:00 PM Tue, 24 Oct 2025</div>
-                <div class="duration">2 hr</div>
-                <div class="mode blue">Online</div>
             </div> -->
         </div>
     </div>
