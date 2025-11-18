@@ -1,16 +1,7 @@
-const SUPABASE_URL = "https://fvvfmyizwilosmbhtlhh.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2dmZteWl6d2lsb3NtYmh0bGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEyMTg2MTAsImV4cCI6MjA3Njc5NDYxMH0._dPnV9wgBZZKvFR-zSZPp_FFQJ5Rf1akuMiS8maRhIs";
-
-const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 const coursesContainer = document.getElementById("course-card-wrapper");
 const deadlinesContainer = document.getElementById("deadline-wrapper");
-
-const logoutBtn = document.getElementById("logout");
-logoutBtn.addEventListener("click", async () => {
-    await client.auth.signOut();
-    window.location.href = "auth.html";
-});
+const overlay = document.querySelector(".overlay-wrapper");
+const closeBtn = overlay.querySelector(".close");
 
 async function loadDashboard() {
     const { data: { user } } = await client.auth.getUser();
@@ -23,28 +14,27 @@ async function loadDashboard() {
     let userData;
     try {
         const { data, error } = await client
-            .from("users") // Your 'allowlist' table
+            .from("users")
             .select("current_courses")
             .eq("sst_email", user.email)
-            .maybeSingle(); // Returns null if not found
+            .maybeSingle();
 
         if (error) {
             throw new Error(`Allowlist check failed: ${error.message}`);
         }
 
         if (!data) {
-            // User is authenticated but NOT on the allowlist.
             console.warn("Access Denied: User not in allowlist.", user.email);
-            await client.auth.signOut(); // Log them out
-            window.location.href = "access_denied.html"; // Redirect to denied page
-            return; // Stop executing
+            await client.auth.signOut();
+            window.location.href = "access_denied.html";
+            return;
         }
-        userData = data; // Store the approved user's data
+        userData = data;
 
     } catch (error) {
         console.error(error.message);
-        coursesContainer.innerHTML = "<p>Failed to load courses.</p>";
-        deadlinesContainer.innerHTML = "<p>Failed to load deadlines.</p>";
+        coursesContainer.innerHTML = `<div class="no-data-found">Failed to load courses.</div>`;
+        deadlinesContainer.innerHTML = `<div class="no-data-found">Failed to load deadlines.</div>`;
         await client.auth.signOut();
         return;
     }
@@ -52,7 +42,7 @@ async function loadDashboard() {
     const userCourses = userData.current_courses || [];
 
     if (userCourses.length === 0) {
-        coursesContainer.innerHTML = "No courses enrolled.";
+        coursesContainer.innerHTML = `<div class="no-data-found">No courses enrolled.</div>`;
         return;
     }
 
@@ -63,7 +53,7 @@ async function loadDashboard() {
 
     if (courseError) {
         console.error(courseError);
-        coursesContainer.innerHTML = "<p>Failed to load courses.</p>";
+        coursesContainer.innerHTML = `<div class="no-data-found">Failed to load courses.</div>`;
         return;
     }
 
@@ -92,7 +82,7 @@ async function loadDashboard() {
 
     if (deadlinesError) {
         console.error(deadlinesError);
-        deadlinesContainer.innerHTML = "<p>Failed to load deadlines.</p>";
+        deadlinesContainer.innerHTML = `<div class="no-data-found">Failed to load deadlines.</div>`;
         return;
     }
 
@@ -105,7 +95,7 @@ async function loadDashboard() {
             const isUpcoming = new Date(dl.deadline) > now;
             return allowed && isUpcoming;
         })
-        .slice(0, 3);
+        .slice(0, 4);
 
     deadlinesContainer.innerHTML = upcomingDeadlines.map(dl => {
         const deadlineTime = new Date(dl.deadline);
@@ -120,6 +110,10 @@ async function loadDashboard() {
 
         const status = deadlineTime > now ? "Upcoming" : "Overdue";
 
+        const hasLink = dl.redirect_link && dl.redirect_link.trim() !== "";
+        const linkHref = hasLink ? dl.redirect_link : "javascript:void(0)";
+        const linkClass = hasLink ? "" : "popup-trigger";
+
         return `
             <div class="deadline-row">
                 <div class="completion">
@@ -130,7 +124,7 @@ async function loadDashboard() {
                 <div class="time">${formattedTime}</div>
                 <div class="status ${getStatusClass(status)}">${status}</div>
                 <div class="priority ${getPriorityClass(dl.priority)}">${dl.priority}</div>
-                <a class="link" href="${dl.redirect_link || '#'}">
+                <a class="link ${linkClass}" href="${linkHref}" target="_blank">
                     <span>Open</span>
                     <svg data-src="assets/icons/box-arrow-up-right.svg"></svg>
                 </a>
@@ -139,22 +133,17 @@ async function loadDashboard() {
     }).join('');
 }
 
-function getStatusClass(status) {
-    switch (status.toLowerCase()) {
-        case 'upcoming': return 'yellow';
-        case 'overdue': return 'red';
-        default: return 'gray';
+deadlinesContainer.addEventListener('click', (e) => {
+    const trigger = e.target.closest('.popup-trigger');
+    
+    if (trigger) {
+        e.preventDefault();
+        overlay.classList.add('show');
     }
-}
+});
 
-function getPriorityClass(priority) {
-    if (!priority) return "gray";
-    switch (priority.toLowerCase()) {
-        case 'high': return 'red';
-        case 'medium': return 'yellow';
-        case 'low': return 'green';
-        default: return 'gray';
-    }
-}
+closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('show');
+});
 
 window.addEventListener("DOMContentLoaded", loadDashboard);
