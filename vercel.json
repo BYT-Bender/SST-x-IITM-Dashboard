@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/stats/:match*",
+      "destination": "https://sst-x-iitm-dashboard.vercel.app/_vercel/insights/:match*"
+    }
+  ]
+}
